@@ -16,7 +16,7 @@ namespace E_Commerce.Models
         [StringLength(160)]
         public string CategoryName { get; set; }
 
-        public virtual ICollection<Brand> Brands { get; set; } = new List<Brand>();
+        public virtual ICollection<CategorySubCategory> CategorySubCategories { get; set; } = new List<CategorySubCategory>();
 
     }
 }

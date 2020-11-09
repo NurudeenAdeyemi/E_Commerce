@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Models
 {
-    public class ProductBrand
+    public class SubCategoryBrand
     {
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
+        [ForeignKey("SubCategory")]
+        public int SubCategoryId { get; set; }
 
         [ForeignKey("Brand")]
         public int BrandId { get; set; }
 
-        public Product Product { get; set; }
+        public SubCategory SubCategory { get; set; }
 
         public Brand Brand { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,9 +22,12 @@ namespace E_Commerce.Models
 
         public string Description { get; set; }
 
-        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        [ForeignKey("Brand")]
+        public int BrandId { get; set; }
 
-        public virtual ICollection<Brand> Brands { get; set; } = new List<Brand>();
+        public Brand Brand { get; set; }
+
+        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     }

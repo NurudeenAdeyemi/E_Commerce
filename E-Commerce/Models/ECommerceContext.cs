@@ -20,18 +20,15 @@ namespace E_Commerce.Models
                 o.HasIndex(o => new { o.ProductId, o.OrderId }).IsUnique();
             });
 
-            modelBuilder.Entity<BrandCategory>(o =>
+            modelBuilder.Entity<SubCategoryBrand>(o =>
             {
-                o.HasIndex(o => new { o.BrandId, o.CategoryId }).IsUnique();
+                o.HasIndex(o => new { o.BrandId, o.SubCategoryId }).IsUnique();
             });
 
-            modelBuilder.Entity<ProductBrand>(o =>
+            modelBuilder.Entity<CategorySubCategory>(o =>
             {
-                o.HasIndex(o => new { o.ProductId, o.BrandId }).IsUnique();
+                o.HasIndex(o => new { o.CategoryId, o.SubCategoryId }).IsUnique();
             });
-
-           
-
         }
 
         public DbSet<Customer> Customers { get; set; }
@@ -50,11 +47,13 @@ namespace E_Commerce.Models
 
         public DbSet<Payment> Payments { get; set; }
 
-        public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<SubCategoryBrand> SubCategoryBrands { get; set; }
+
+        public DbSet<CategorySubCategory> CategorySubCategories { get; set; }
 
         public DbSet<ProductImage> ProductImages { get; set; }
 
-        public DbSet<BrandCategory> BrandCategories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
 
     }
 }

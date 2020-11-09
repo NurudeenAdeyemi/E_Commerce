@@ -27,10 +27,15 @@ namespace E_Commerce.Models
 
         public decimal Total { get; set; }
 
+        [ForeignKey("Payment")]
+        public int PaymentId { get; set; }
+
+        public Payment Payment { get; set; }
+
         public OrderStatus Status { get; set; }
 
         public virtual ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
-        public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        
     }
 }

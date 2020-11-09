@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Models
 {
-    public class BrandCategory
+    public class CategorySubCategory
     {
         [Key]
         public int Id { get; set; }
@@ -15,11 +15,11 @@ namespace E_Commerce.Models
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
 
-        [ForeignKey("Brand")]
-        public int BrandId { get; set; }
+        [ForeignKey("SubCategory")]
+        public int SubCategoryId { get; set; }
 
         public Category Category { get; set; }
 
-        public Brand Brand { get; set; }
+        public SubCategory SubCategory { get; set; }
     }
 }
