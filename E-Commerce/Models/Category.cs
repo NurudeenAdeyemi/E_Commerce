@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,11 @@ namespace E_Commerce.Models
         [StringLength(160)]
         public string CategoryName { get; set; }
 
-        public virtual ICollection<CategorySubCategory> CategorySubCategories { get; set; } = new List<CategorySubCategory>();
+        public int? ParentId { get; set; }
+
+        public Category Parent { get; set; }
+
+        public virtual ICollection<CategoryProduct> Products { get; set; } = new List<CategoryProduct>();
 
     }
 }

@@ -24,6 +24,6 @@ namespace E_Commerce.Models
 
         public int Quantity { get; set; }
 
-        public decimal SubTotal { get; set; }
+        public decimal UnitPrice { get; set; }
     }
 }

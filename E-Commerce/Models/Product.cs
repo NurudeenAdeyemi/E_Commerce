@@ -22,10 +22,9 @@ namespace E_Commerce.Models
 
         public string Description { get; set; }
 
-        [ForeignKey("Brand")]
-        public int BrandId { get; set; }
+        public string ImageUrl { get; set; } 
 
-        public Brand Brand { get; set; }
+        public virtual ICollection<CategoryProduct> Products { get; set; } = new List<CategoryProduct>();
 
         public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 

@@ -17,22 +17,6 @@ namespace E_Commerce.Migrations
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("E_Commerce.Models.Brand", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("BrandName")
-                        .IsRequired()
-                        .HasColumnType("varchar(160)")
-                        .HasMaxLength(160);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Brands");
-                });
-
             modelBuilder.Entity("E_Commerce.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -44,12 +28,17 @@ namespace E_Commerce.Migrations
                         .HasColumnType("varchar(160)")
                         .HasMaxLength(160);
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("E_Commerce.Models.CategorySubCategory", b =>
+            modelBuilder.Entity("E_Commerce.Models.CategoryProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,17 +47,16 @@ namespace E_Commerce.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubCategoryId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategoryId");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("CategoryId", "SubCategoryId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("CategorySubCategories");
+                    b.ToTable("CategoryProducts");
                 });
 
             modelBuilder.Entity("E_Commerce.Models.Customer", b =>
@@ -147,6 +135,9 @@ namespace E_Commerce.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("Orderreference")
+                        .HasColumnType("text");
+
                     b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
@@ -185,7 +176,7 @@ namespace E_Commerce.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("SubTotal")
+                    b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
@@ -237,10 +228,10 @@ namespace E_Commerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
                     b.Property<decimal>("Price")
@@ -252,8 +243,6 @@ namespace E_Commerce.Migrations
                         .HasMaxLength(160);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
 
                     b.ToTable("Products");
                 });
@@ -277,55 +266,24 @@ namespace E_Commerce.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("E_Commerce.Models.SubCategory", b =>
+            modelBuilder.Entity("E_Commerce.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("SubCategoryName")
-                        .IsRequired()
-                        .HasColumnType("varchar(160)")
-                        .HasMaxLength(160);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SubCategories");
+                    b.HasOne("E_Commerce.Models.Category", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
                 });
 
-            modelBuilder.Entity("E_Commerce.Models.SubCategoryBrand", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubCategoryId");
-
-                    b.HasIndex("BrandId", "SubCategoryId")
-                        .IsUnique();
-
-                    b.ToTable("SubCategoryBrands");
-                });
-
-            modelBuilder.Entity("E_Commerce.Models.CategorySubCategory", b =>
+            modelBuilder.Entity("E_Commerce.Models.CategoryProduct", b =>
                 {
                     b.HasOne("E_Commerce.Models.Category", "Category")
-                        .WithMany("CategorySubCategories")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("E_Commerce.Models.SubCategory", "SubCategory")
-                        .WithMany("CategorySubCategories")
-                        .HasForeignKey("SubCategoryId")
+                    b.HasOne("E_Commerce.Models.Product", "Product")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -384,35 +342,11 @@ namespace E_Commerce.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("E_Commerce.Models.Product", b =>
-                {
-                    b.HasOne("E_Commerce.Models.Brand", "Brand")
-                        .WithMany("Products")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("E_Commerce.Models.ProductImage", b =>
                 {
                     b.HasOne("E_Commerce.Models.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("E_Commerce.Models.SubCategoryBrand", b =>
-                {
-                    b.HasOne("E_Commerce.Models.Brand", "Brand")
-                        .WithMany("SubCategoryBrands")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("E_Commerce.Models.SubCategory", "SubCategory")
-                        .WithMany("SubCategoryBrands")
-                        .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

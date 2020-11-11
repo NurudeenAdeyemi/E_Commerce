@@ -19,13 +19,14 @@ namespace E_Commerce.Models
         public int CustomerId { get; set; }
 
         public Customer Customer { get; set; }
-
        
         [Required(ErrorMessage = "Shipping address is required")]
         [StringLength(300)]
         public string ShippingAddress { get; set; }
 
         public decimal Total { get; set; }
+
+        public string Orderreference { get; set; }
 
         [ForeignKey("Payment")]
         public int PaymentId { get; set; }

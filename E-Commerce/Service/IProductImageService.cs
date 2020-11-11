@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Service
 {
-    interface IProductImageService
+    public interface IProductImageService
     {
         public List<ProductImage> GetAll();
 
